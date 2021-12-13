@@ -3,14 +3,19 @@ import React, {useState, useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+
 import OnboardingScreen from './screens/OnboardingScreen';
 import LoginScreen from './screens/LoginScreen';
 import AsyncStorage from '@react-native-community/async-storage';
+import SignupScreen from './screens/SignupScreen';
+import {View} from 'react-native';
 
-const AppStack = createStackNavigator();
+const Stack = createStackNavigator();
 
 const App = () => {
   const [isFirstLaunch, setIsFirstLaunch] = useState(null);
+  let routeName;
 
   useEffect(() => {
     AsyncStorage.getItem('alreadyLaunched').then(value => {
@@ -24,19 +29,44 @@ const App = () => {
   }, []);
 
   if (isFirstLaunch === null) {
-    return null;
-  } else if (isFirstLaunch === true) {
-    return (
-      <NavigationContainer>
-        <AppStack.Navigator headerMode="none">
-          <AppStack.Screen name="Onboarding" component={OnboardingScreen} />
-          <AppStack.Screen name="Login" component={LoginScreen} />
-        </AppStack.Navigator>
-      </NavigationContainer>
-    );
+    return null; // This is the 'tricky' part: The query to AsyncStorage is not finished, but we have to present something to the user. Null will just render nothing, so you can also put a placeholder of some sort, but effectively the interval between the first mount and AsyncStorage retrieving your data won't be noticeable to the user. But if you want to display anything then you can use a LOADER here
+  } else if (isFirstLaunch == true) {
+    routeName = 'Onboarding';
   } else {
-    return <LoginScreen />;
+    routeName = 'Login';
   }
+
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName={routeName}>
+        <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen
+          name="Signup"
+          component={SignupScreen}
+          options={({navigation}) => ({
+            title: '',
+            headerStyle: {
+              backgroundColor: '#f9fafd',
+              shadowColor: '#f9fafd',
+              elevation: 0,
+            },
+            headerLeft: () => (
+              <View style={{marginLeft: 10}}>
+                <FontAwesome.Button
+                  name="long-arrow-left"
+                  size={25}
+                  backgroundColor="#f9fafd"
+                  color="#333"
+                  onPress={() => navigation.navigate('Login')}
+                />
+              </View>
+            ),
+          })}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 };
 
 export default App;

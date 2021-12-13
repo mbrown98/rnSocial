@@ -13,16 +13,12 @@ import FormButton from '../components/FormButton';
 import SocialButton from '../components/SocialButton';
 import {useState} from 'react';
 
-const LoginScreen = ({navigation}) => {
+const SignupScreen = ({navigation}) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   return (
     <View style={styles.container}>
-      <Image
-        source={require('../assets/rn-social-logo.png')}
-        style={styles.logo}
-      />
-      <Text style={styles.text}>RN Social App</Text>
+      <Text style={styles.text}>Create a new account</Text>
       <FormInput
         labelValue={email}
         onChangeText={userEmail => setEmail(userEmail)}
@@ -32,6 +28,7 @@ const LoginScreen = ({navigation}) => {
         autoCapitalize="none"
         autoCorrect={false}
       />
+
       <FormInput
         labelValue={password}
         onChangeText={userPassword => setPassword(userPassword)}
@@ -39,16 +36,29 @@ const LoginScreen = ({navigation}) => {
         iconType="lock"
         secureTextEntry={true}
       />
+
       <FormButton
-        buttonTitle="Sign In"
-        onPress={() => alert('Sign In Clicked')}
+        buttonTitle="Sign Up"
+        onPress={() => alert('Sign Up Clicked')}
       />
-      <TouchableOpacity style={styles.forgotButton} onPress={() => {}}>
-        <Text style={styles.navButtonText}>Forgot Password?</Text>
-      </TouchableOpacity>
+
+      <View style={styles.textPrivate}>
+        <Text style={styles.color_textPrivate}>
+          By registering, you confirm that you accept our{' '}
+        </Text>
+        <TouchableOpacity onPress={() => alert('Terms Clicked!')}>
+          <Text style={[styles.color_textPrivate, {color: '#e88832'}]}>
+            Terms of service
+          </Text>
+        </TouchableOpacity>
+        <Text style={styles.color_textPrivate}> and </Text>
+        <Text style={[styles.color_textPrivate, {color: '#e88832'}]}>
+          Privacy Policy
+        </Text>
+      </View>
 
       <SocialButton
-        buttonTitle="Sign Up with Facebook"
+        buttonTitle="Sign In with Facebook"
         btnType="facebook"
         color="#4867aa"
         backgroundColor="#e6eaf4"
@@ -56,7 +66,7 @@ const LoginScreen = ({navigation}) => {
       />
 
       <SocialButton
-        buttonTitle="Sign Up with Google"
+        buttonTitle="Sign In with Google"
         btnType="google"
         color="#4867aa"
         backgroundColor="#f5e7ea"
@@ -76,23 +86,18 @@ const LoginScreen = ({navigation}) => {
   );
 };
 
-export default LoginScreen;
+export default SignupScreen;
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#f9fafd',
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    flex: 1,
     padding: 20,
-    paddingTop: 50,
-  },
-  logo: {
-    height: 150,
-    width: 150,
-    resizeMode: 'cover',
   },
   text: {
-    // fontFamily: 'Kufam-SemiBoldItalic',
+    fontFamily: 'Kufam-SemiBoldItalic',
     fontSize: 28,
     marginBottom: 10,
     color: '#051d5f',
@@ -100,13 +105,22 @@ const styles = StyleSheet.create({
   navButton: {
     marginTop: 15,
   },
-  forgotButton: {
-    marginVertical: 35,
-  },
   navButtonText: {
     fontSize: 18,
     fontWeight: '500',
     color: '#2e64e5',
     fontFamily: 'Lato-Regular',
+  },
+  textPrivate: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginVertical: 35,
+    justifyContent: 'center',
+  },
+  color_textPrivate: {
+    fontSize: 13,
+    fontWeight: '400',
+    fontFamily: 'Lato-Regular',
+    color: 'grey',
   },
 });

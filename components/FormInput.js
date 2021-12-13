@@ -1,14 +1,15 @@
 import React from 'react';
 import {View, TextInput, StyleSheet} from 'react-native';
-import {windowHeight, windowWidth} from '../utils/Dimentions';
 
+import {windowHeight, windowWidth} from '../utils/Dimensions';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import {IconFill, IconOutline} from '@ant-design/icons-react-native';
 
 const FormInput = ({labelValue, placeholderText, iconType, ...rest}) => {
   return (
     <View style={styles.inputContainer}>
       <View style={styles.iconStyle}>
-        <AntDesign name={iconType} size={25} color="#666" />
+        <IconOutline name={iconType} size={25} color="#666" />
       </View>
       <TextInput
         value={labelValue}
